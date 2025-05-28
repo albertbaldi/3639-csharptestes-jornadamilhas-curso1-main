@@ -7,13 +7,41 @@ using JornadaMilhasV1.Validador;
 
 namespace JornadaMilhasV1.Modelos;
 
-public class OfertaViagem: Valida
+public class OfertaViagem : Valida
 {
-    public int Id { get; set; }
-    public Rota Rota { get; set; } 
-    public Periodo Periodo { get; set; }
-    public double Preco { get; set; }
+    public const double DESCONTO_MAXIMO = 0.7;
+    private double desconto;
+    private double preco;
 
+    public int Id { get; set; }
+    public Rota Rota { get; set; }
+    public Periodo Periodo { get; set; }
+    public double Preco
+    {
+        get
+        {
+            double precoComDesconto = preco - Desconto;
+            if (Desconto > preco)
+            {
+                precoComDesconto = preco * 0.3;
+            }
+            return precoComDesconto;
+        }
+        set => preco = value;
+    }
+    public double Desconto
+    {
+        get => desconto;
+        set
+        {
+            desconto = value < 0 ? 0 : value;
+            // desconto = value;
+            // if (desconto >= Preco)
+            //     Preco *= (1 - DESCONTO_MAXIMO);
+            // else
+            //     Preco -= desconto;
+        }
+    }
 
     public OfertaViagem(Rota rota, Periodo periodo, double preco)
     {
@@ -33,10 +61,11 @@ public class OfertaViagem: Valida
         if (!Periodo.EhValido)
         {
             Erros.RegistrarErro(Periodo.Erros.Sumario);
-        } else if (Rota == null || Periodo == null)
+        }
+        else if (Rota == null || Periodo == null)
         {
             Erros.RegistrarErro("A oferta de viagem não possui rota ou período válidos.");
-        } 
+        }
         else if (Preco <= 0)
         {
             Erros.RegistrarErro("O preço da oferta de viagem deve ser maior que zero.");
