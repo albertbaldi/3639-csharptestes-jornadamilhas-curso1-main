@@ -22,6 +22,7 @@ public class OfertaViagemDesconto
         // Assert
         Assert.Equal(precoComDesconto, oferta.Preco);
     }
+
     [Fact]
     public void RetornaDescontoMaximoQuandoValorDescontoMaiorQuePreco()
     {

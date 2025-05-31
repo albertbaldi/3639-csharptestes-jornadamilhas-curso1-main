@@ -1,9 +1,10 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.ComponentModel;
+using System.Runtime.InteropServices;
 using JornadaMilhasV1.Modelos;
 
 namespace JornadaMilhas.Test;
 
-public class OfertaViagemConstritor
+public class OfertaViagemConstrutor
 {
     [Theory]
     [InlineData("", null, "2024-01-01", "2024-01-02", 0.0, false)]
@@ -54,5 +55,21 @@ public class OfertaViagemConstritor
 
         // Assert
         Assert.Contains("O preço da oferta de viagem deve ser maior que zero.", oferta.Erros.Sumario);
+    }
+
+    [Fact]
+    public void RetornaTresErrosDeValidacaoQuandoRotaPeriodoEPrecoSaoInvalidos()
+    {
+        // Arrange
+        Rota rota = null;
+        Periodo periodo = new Periodo(new DateTime(2025, 1, 1), new DateTime(2024, 10, 21));
+        double preco = -200.0;
+        int quantidadeEsperada = 3;
+
+        // Act
+        OfertaViagem oferta = new OfertaViagem(rota, periodo, preco);
+
+        // Assert
+        Assert.Equal(quantidadeEsperada, oferta.Erros.Count());
     }
 }

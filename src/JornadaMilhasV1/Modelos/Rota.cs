@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JornadaMilhasV1.Modelos;
 
-public class Rota: Valida
+public class Rota : Valida
 {
     public int Id { get; set; }
     public string Origem { get; set; }
@@ -27,7 +27,7 @@ public class Rota: Valida
         {
             Erros.RegistrarErro("A rota não pode possuir uma origem nula ou vazia.");
         }
-        else if ((this.Destino is null) || this.Destino.Equals(string.Empty))
+        if ((this.Destino is null) || this.Destino.Equals(string.Empty))
         {
             Erros.RegistrarErro("A rota não pode possuir um destino nulo ou vazio.");
         }

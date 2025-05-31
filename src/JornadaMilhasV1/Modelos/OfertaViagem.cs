@@ -43,6 +43,8 @@ public class OfertaViagem : Valida
         }
     }
 
+    public bool Ativa { get; set; } = true;
+
     public OfertaViagem(Rota rota, Periodo periodo, double preco)
     {
         Rota = rota;
@@ -62,11 +64,11 @@ public class OfertaViagem : Valida
         {
             Erros.RegistrarErro(Periodo.Erros.Sumario);
         }
-        else if (Rota == null || Periodo == null)
+        if (Rota == null || Periodo == null)
         {
             Erros.RegistrarErro("A oferta de viagem não possui rota ou período válidos.");
         }
-        else if (Preco <= 0)
+        if (Preco <= 0)
         {
             Erros.RegistrarErro("O preço da oferta de viagem deve ser maior que zero.");
         }
